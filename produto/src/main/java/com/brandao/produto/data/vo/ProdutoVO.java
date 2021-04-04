@@ -3,10 +3,11 @@ package com.brandao.produto.data.vo;
 import java.io.Serializable;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.RepresentationModel;
 
-import com.brandao.produto.entity.Produto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.brandao.produto.entity.Produto;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -15,30 +16,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@JsonPropertyOrder({"id","nome","estoque","preco"})
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({"id","nome","preco","estoque"})
-public class ProdutoVO implements Serializable {
+@EqualsAndHashCode(callSuper = false)
+public class ProdutoVO extends RepresentationModel<ProdutoVO> implements Serializable {
 
-    private static final long serialVersionUID = -5821955348876623164L;
-	
-    @JsonProperty("id")
+	private static final long serialVersionUID = 2938272643682548375L;
+
+	@JsonProperty("id")
 	private Long id;
-    
-    @JsonProperty("nome")
-    private String nome;
+
+	@JsonProperty("nome")
+	private String nome;
 	
-    @JsonProperty("estoque")
+	@JsonProperty("estoque")
 	private Integer estoque;
 	
-    @JsonProperty("preco")
+	@JsonProperty("preco")
 	private Double preco;
-    
-    public static ProdutoVO transform(Produto produto){
-    	return new ModelMapper().map(produto, ProdutoVO.class);
-    }
+	
+	public static ProdutoVO create(Produto produto) {
+		return new ModelMapper().map(produto, ProdutoVO.class);
+	}
 }

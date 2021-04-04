@@ -10,21 +10,25 @@ import org.springframework.stereotype.Service;
 import com.brandao.produto.data.vo.ProdutoVO;
 import com.brandao.produto.entity.Produto;
 import com.brandao.produto.exception.ResourceNotFoundException;
+import com.brandao.produto.message.ProdutoSendMessage;
 import com.brandao.produto.repository.ProdutoRepository;
 
 @Service
 public class ProdutoService {
 
-	private ProdutoRepository produtoRepository;
+	private final ProdutoRepository produtoRepository;
+	private final ProdutoSendMessage produtoSendMessage;
 
 	@Autowired
-	public ProdutoService(ProdutoRepository produtoRepository) {
+	public ProdutoService(ProdutoRepository produtoRepository, ProdutoSendMessage produtoSendMessage) {
 		this.produtoRepository = produtoRepository;
+		this.produtoSendMessage = produtoSendMessage;
 	}
 	
 	public ProdutoVO create(ProdutoVO produtoVO) {
-		ProdutoVO pProdutoVO  = ProdutoVO.transform(produtoRepository.save(Produto.transform(produtoVO))); 
-		return pProdutoVO;
+	 	ProdutoVO proVoRetorno = ProdutoVO.create(produtoRepository.save(Produto.create(produtoVO)));
+	 	produtoSendMessage.sendMessage(proVoRetorno);
+		return proVoRetorno;
 	}
 	
 	public Page<ProdutoVO> findAll(Pageable pageable) {
@@ -33,13 +37,13 @@ public class ProdutoService {
 	}
 
 	private ProdutoVO convertToProdutoVO(Produto produto) {
-		return ProdutoVO.transform(produto);
+		return ProdutoVO.create(produto);
 	}
 
 	public ProdutoVO findById(Long id) {
 		var entity = produtoRepository.findById(id)
-				                      .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-		return ProdutoVO.transform(entity);
+				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+		return ProdutoVO.create(entity);
 	}
 	
 	public ProdutoVO update(ProdutoVO produtoVO) {
@@ -49,14 +53,12 @@ public class ProdutoService {
 			new ResourceNotFoundException("No records found for this ID");
 		}
 		
-		return ProdutoVO.transform(produtoRepository.save(Produto.transform(produtoVO)));
+		return ProdutoVO.create(produtoRepository.save(Produto.create(produtoVO)));
 	}
 	
 	public void delete(Long id) {
 		var entity = produtoRepository.findById(id)
-				                      .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 		produtoRepository.delete(entity);
 	}
-	
-	
 }

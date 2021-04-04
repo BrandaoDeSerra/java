@@ -20,32 +20,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Entity
+@Table(name = "produto")
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name="Produto")
-public class Produto implements Serializable{
+@EqualsAndHashCode
+public class Produto implements Serializable {
 
-	private static final long serialVersionUID = 8588472887851972848L;
-	
+	private static final long serialVersionUID = 840917418532642260L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="nome",nullable = false, length = 255)
+	@Column(name = "nome", nullable = false, length = 255)
 	private String nome;
-
-	@Column(name="estoque",nullable = false, length = 10)
+	
+	@Column(name = "estoque", nullable = false, length = 10)
 	private Integer estoque;
 	
-	@Column(name="preco",nullable = false, length = 10)
+	@Column(name = "preco", nullable = false, length = 10)
 	private Double preco;
-
-	public static Produto transform(ProdutoVO produtoVO){
-    	return new ModelMapper().map(produtoVO, Produto.class);
-    }
+	
+	public static Produto create(ProdutoVO produtoVO) {
+		return new ModelMapper().map(produtoVO, Produto.class);
+	}
 }

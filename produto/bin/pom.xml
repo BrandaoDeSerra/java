@@ -12,7 +12,7 @@
 	<artifactId>produto</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>produto</name>
-	<description>Microservices CRUD Produto</description>
+	<description>Microservices produto Produto</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
