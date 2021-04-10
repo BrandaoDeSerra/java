@@ -6,7 +6,7 @@ spring:
       server:
         git:
           default-label: main
-          uri: https://github.com/acenelio/ms-course-configs
+          uri: https://github.com/BrandaoDeSerra/java-ms-rabbit-queue/tree/main/config-server-resources
           username: ${GITHUB_USER}
           password: ${GITHUB_PASS}
 server:
