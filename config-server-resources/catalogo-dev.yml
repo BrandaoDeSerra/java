@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:0}
+  servlet:
+    context-path: /catalogo
+   
+spring:
+  application:
+    name: catalogo
+
+  jmx:
+    enabled: false
+
+  data:
+    mongodb:
+      username: root
+      password: example
+      host: localhost
+      port: 27017
+      database: admin
+    
+security:
+  jwt:
+    token: 
+      secret-key: chave_microservices
+      
+eureka:
+  instance: 
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}    
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/registry/eureka
+          
