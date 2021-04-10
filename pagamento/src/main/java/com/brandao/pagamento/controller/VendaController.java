@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.brandao.pagamento.data.vo.ProdutoExternoVO;
 import com.brandao.pagamento.data.vo.VendaVO;
 import com.brandao.pagamento.services.VendaService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 @RequestMapping("/venda")
@@ -78,5 +80,17 @@ public class VendaController {
 		VendaVO proVo = vendaService.create(vendaVO);
 		proVo.add(linkTo(methodOn(VendaController.class).findById(proVo.getId())).withSelfRel());
 		return proVo;
+	}
+	
+	@HystrixCommand(fallbackMethod = "findProdutoExternoByIdFallback")
+	@GetMapping(value = "produtoExterno/{id}", produces = {"application/json","application/xml","application/x-yaml"})
+	public ProdutoExternoVO findProdutoExternoById(@PathVariable("id")  Long id) {
+		ProdutoExternoVO produtoExternoVO = vendaService.findProdutoExternoById(id);
+		return produtoExternoVO;
+	}
+	
+	public ProdutoExternoVO findProdutoExternoByIdFallback(Long id) {
+		ProdutoExternoVO produtoExternoVO = new ProdutoExternoVO(0L,"Falou!",0,0.0);
+		return produtoExternoVO;
 	}
 }

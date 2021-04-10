@@ -2,9 +2,10 @@ https://start.spring.io/
 
  consig service
 
+8084 - microservices auth
+
 8082 - microservices produto
 8083 - microservices pagamento
-8084 - microservices auth
 8085 - catalogo noSql
 
 8761 - service discovery - Eureka
@@ -18,4 +19,6 @@ https://start.spring.io/
 8081 - express mongodb
 27017 - mongodb
 
-				
+Resilience4j - circuit break
+
+

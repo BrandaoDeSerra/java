@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: ${PORT:0}
   servlet:
     context-path: /auth
     
@@ -30,6 +30,7 @@ security:
 eureka:
   instance: 
     hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/registry/eureka
